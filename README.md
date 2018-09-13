@@ -3,7 +3,7 @@ Anomaly detection algorithm
 
 
 
-This project will contain ann implementation of an Anomaly Detection Algorithm. Below there are 5 options of potencial project to implement.
+This project will contains an implementation of an Anomaly Detection Algorithm. Below there are 5 options of potencial project to implement.
 
 ### Paper Options
 
