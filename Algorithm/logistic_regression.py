@@ -163,6 +163,8 @@ class LogisticRegression:
 
                     feed_dict = {self.x_input: train_example_batch, self.y_input: train_label_batch}
 
+                    inputs = train_data[0]
+
                     summary, _, loss, predicted, actual = sess.run([self.merged, self.train_op, self.cross_entropy,
                                                                     self.predictions, self.y_onehot],
                                                                    feed_dict=feed_dict)
@@ -178,6 +180,10 @@ class LogisticRegression:
 
                     self.save_labels(predictions=predicted, actual=actual, result_path=result_path, step=step,
                                      phase='training')
+
+                    self.save_inputs(inputs=inputs, inputs_path='./inputs/logistic_regression/', step=step,
+                                     phase='training')
+
             except KeyboardInterrupt:
                 print('Training interrupted at step {}'.format(step))
                 os._exit(1)
@@ -196,6 +202,8 @@ class LogisticRegression:
                                                                                           self.cross_entropy,
                                                                                           self.accuracy_op],
                                                                                          feed_dict=feed_dict)
+                    
+                    inputs = validation_data[0]
 
                     if step % 100 == 0 and step > 0:
                         print('step [{}] testing -- loss : {}, accuracy : {}'.format(step, test_loss, test_accuracy))
@@ -203,6 +211,9 @@ class LogisticRegression:
                         test_writer.add_summary(test_summary, step)
 
                     self.save_labels(predictions=predicted, actual=actual, result_path=result_path, step=step,
+                                     phase='testing')
+
+                    self.save_inputs(inputs=inputs, inputs_path='./inputs/logistic_regression/', step=step,
                                      phase='testing')
 
                 print('EOF -- Testing done at step {}'.format(step))
@@ -215,6 +226,7 @@ class LogisticRegression:
             with tf.name_scope('stddev'):
                 stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
             tf.summary.scalar('stddev', stddev)
+            print(stddev)
             tf.summary.scalar('max', tf.reduce_max(var))
             tf.summary.scalar('min', tf.reduce_min(var))
             tf.summary.histogram('histogram', var)
@@ -245,3 +257,11 @@ class LogisticRegression:
 
         # save the labels array to NPY file
         np.save(file=os.path.join(result_path, '{}-logistic_regression-{}.npy'.format(phase, step)), arr=labels)
+
+    @staticmethod
+    def save_inputs(inputs, inputs_path, step, phase):
+        if not os.path.exists(path=inputs_path):
+            os.mkdir(inputs_path)
+
+        # save the labels array to NPY file
+        np.save(file=os.path.join(inputs_path, '{}-logistic_regression-{}.npy'.format(phase, step)), arr=inputs)
