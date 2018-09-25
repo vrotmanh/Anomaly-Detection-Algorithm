@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from sklearn import datasets
+import csv
 
 def load_data_by_file(file_index, testing=False):
     if testing:
@@ -31,6 +32,12 @@ def load_data():
         train_data[2] = train_data[2] + data[2]
         train_data[3] = train_data[3] + data[3]
     return(train_data, test_data)
+
+def get_input(index):
+    test_data = np.load('./inputs/logistic_regression/testing-logistic_regression-999.npy').tolist()
+    train_data = np.load('./inputs/logistic_regression/training-logistic_regression-999.npy').tolist()
+    all_data = train_data + test_data
+    return all_data[index]
 
 def get_predictions(data):
     predictions = []
@@ -68,4 +75,60 @@ def find_anomalies():
 
     return(anomalies)
 
-find_anomalies()
+def export_anomalies():
+    anomalies = find_anomalies()
+    with open('anomalies.csv', 'w') as csvfile:
+        fieldnames = ['mean radius', 'mean texture',
+                              'mean perimeter', 'mean area',
+                              'mean smoothness', 'mean compactness',
+                              'mean concavity', 'mean concave points',
+                              'mean symmetry', 'mean fractal dimension',
+                              'radius error', 'texture error',
+                              'perimeter error', 'area error',
+                              'smoothness error', 'compactness error',
+                              'concavity error', 'concave points error',
+                              'symmetry error', 'fractal dimension error',
+                              'worst radius', 'worst texture',
+                              'worst perimeter', 'worst area',
+                              'worst smoothness', 'worst compactness',
+                              'worst concavity', 'worst concave points',
+                              'worst symmetry', 'worst fractal dimension']
+
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for i in anomalies:
+            anomaly_input = get_input(i)
+            writer.writerow({
+                'mean radius': anomaly_input[0], 
+                'mean texture': anomaly_input[1], 
+                'mean perimeter': anomaly_input[2], 
+                'mean area': anomaly_input[3], 
+                'mean smoothness': anomaly_input[4], 
+                'mean compactness': anomaly_input[5], 
+                'mean concavity': anomaly_input[6], 
+                'mean concave points': anomaly_input[7], 
+                'mean symmetry': anomaly_input[8], 
+                'mean fractal dimension': anomaly_input[9], 
+                'radius error': anomaly_input[10], 
+                'texture error': anomaly_input[11], 
+                'perimeter error': anomaly_input[12], 
+                'area error': anomaly_input[13],
+                'smoothness error': anomaly_input[14], 
+                'compactness error': anomaly_input[15], 
+                'concavity error': anomaly_input[16], 
+                'concave points error': anomaly_input[17], 
+                'symmetry error': anomaly_input[18], 
+                'fractal dimension error': anomaly_input[19], 
+                'worst radius': anomaly_input[20], 
+                'worst texture': anomaly_input[21],
+                'worst perimeter': anomaly_input[22],
+                'worst area': anomaly_input[23],
+                'worst smoothness': anomaly_input[24],
+                'worst compactness': anomaly_input[25],
+                'worst concavity': anomaly_input[26],
+                'worst concave points': anomaly_input[27],
+                'worst symmetry': anomaly_input[28],
+                'worst fractal dimension': anomaly_input[29]
+                })
+
+export_anomalies()
