@@ -4,6 +4,7 @@
 Algorithm/checkpoint_path/
 Algorithm/log_path/
 Algorithm/results/
+Algorithm/inputs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
