@@ -67,7 +67,7 @@ def main():
                                sequence_length=num_features)
 
     model.train(checkpoint_path='./checkpoint_path/logistic_regression/', log_path='./log_path/logistic_regression/',
-                model_name='logistic_regression', epochs=3000, train_data=[train_features, train_labels],
+                model_name='logistic_regression', epochs=1000, train_data=[train_features, train_labels],
                 train_size=train_size, validation_data=[test_features, test_labels], validation_size=test_size,
                 result_path='./results/logistic_regression/')
 
