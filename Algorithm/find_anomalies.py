@@ -57,9 +57,12 @@ def get_actual_labels(data):
             labels.append(1)
     return labels
 
-def find_anomalies():
+def get_all_data_results():
     (train_data, test_data) = load_data()
-    all_data = [train_data[0] + test_data[0], train_data[1] + test_data[1], train_data[2] + test_data[2], train_data[3] + test_data[3]]
+    return [train_data[0] + test_data[0], train_data[1] + test_data[1], train_data[2] + test_data[2], train_data[3] + test_data[3]]
+
+def find_anomalies():
+    all_data = get_all_data_results()
 
     #Predictions
     predictions = get_predictions(all_data)
@@ -75,10 +78,11 @@ def find_anomalies():
 
     return(anomalies)
 
+
 def export_anomalies():
     anomalies = find_anomalies()
     with open('anomalies.csv', 'w') as csvfile:
-        fieldnames = ['mean radius', 'mean texture',
+        fieldnames = ['id','mean radius', 'mean texture',
                               'mean perimeter', 'mean area',
                               'mean smoothness', 'mean compactness',
                               'mean concavity', 'mean concave points',
@@ -99,6 +103,7 @@ def export_anomalies():
         for i in anomalies:
             anomaly_input = get_input(i)
             writer.writerow({
+                'id': i,
                 'mean radius': anomaly_input[0], 
                 'mean texture': anomaly_input[1], 
                 'mean perimeter': anomaly_input[2], 
