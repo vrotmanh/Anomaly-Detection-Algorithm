@@ -147,6 +147,7 @@ def plot_inputs_vs_anomalies(input_index):
             input_anomalies.append(get_input(i)[input_index])
             prediction_anomalies.append(all_data[i])
     
+    plt.figure(input_index)
     plt.scatter(prediction_not_anomalies,input_not_anomalies,color='blue')
     plt.scatter(prediction_anomalies,input_anomalies,color='red')
 
@@ -157,6 +158,7 @@ def plot_inputs_vs_anomalies(input_index):
     plt.xlabel('Probability that tumor is Benign') 
     plt.ylabel(Y_LABEL[input_index].title())
     plt.savefig("Inputs_vs_anomalies_graphs/"+Y_LABEL[input_index].title())
+    plt.close()
 
 
 def export_anomalies():
