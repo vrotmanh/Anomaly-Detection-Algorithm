@@ -1,4 +1,4 @@
-from helper import get_inputs, get_actual_labels, get_all_data_results, find_anomalies
+from helper import get_input, get_inputs, get_actual_labels, get_all_data_results, find_anomalies
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -19,11 +19,17 @@ def knn():
 	distances, indices = nbrs.kneighbors(anomalies_inputs)
 	return(distances, indices)
 
+def neighbours_of_index(index, distances, indices):
+	anomalies_indices = find_anomalies()
+	predictions = get_all_data_results()[0]
+	neighbours = []
+	anomaly_number = anomalies_indices.index(index)
+	for i in indices[anomaly_number]:
+		neighbours.append(i)
+	return neighbours
 
 def plot_anomalies_vs_neighbors(distances, indices, anomalies_indices):
-	all_data = get_inputs()
 	predictions = get_all_data_results()[0]
-	distances, indices = knn()
 	for i in range(len(anomalies_indices)):
 		plot_predictions = []
 		for j in indices[i]:

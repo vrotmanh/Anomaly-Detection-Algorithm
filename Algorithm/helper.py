@@ -1,5 +1,4 @@
 import numpy as np
-from sklearn import datasets
 
 PARAM_mean_radius = 0
 PARAM_mean_texture = 1
