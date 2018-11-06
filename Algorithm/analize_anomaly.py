@@ -3,8 +3,8 @@ from helper import find_anomalies, get_input
 import sys
 import csv
 
-def export_anomaly_and_neighbours(anomaly_index, neighbours_indices):
-    with open('anomaly_neighbours/'+str(anomaly_index)+'.csv', 'w') as csvfile:
+def export_anomaly_and_neighbours(directory, anomaly_index, neighbours_indices):
+    with open(directory+str(anomaly_index)+'.csv', 'w') as csvfile:
         fieldnames = ['id','mean radius', 'mean texture',
                               'mean perimeter', 'mean area',
                               'mean smoothness', 'mean compactness',
@@ -59,10 +59,10 @@ def export_anomaly_and_neighbours(anomaly_index, neighbours_indices):
                 'worst fractal dimension': datapoint_input[29]
                 })
 
-anomaly_index = int(sys.argv[1])
-anomalies_indices = find_anomalies()
-distances, indices = knn()
-neighbours_indices = neighbours_of_index(anomaly_index, distances, indices)
-export_anomaly_and_neighbours(anomaly_index, neighbours_indices)
+# anomaly_index = int(sys.argv[1])
+# anomalies_indices = find_anomalies()
+# distances, indices = knn()
+# neighbours_indices = neighbours_of_index(anomaly_index, distances, indices)
+# export_anomaly_and_neighbours("anomaly_neighbours/", anomaly_index, neighbours_indices)
 
 

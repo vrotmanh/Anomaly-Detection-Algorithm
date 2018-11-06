@@ -1,4 +1,6 @@
 from helper import Y_LABEL
+from knn import knn, neighbours_of_index
+from analize_anomaly import export_anomaly_and_neighbours
 import csv
 import matplotlib
 import matplotlib.pyplot as plt
@@ -21,8 +23,11 @@ def get_inputs(index, inputs):
 	return [i[index] for i in inputs]
 
 def generate_output(patient_index):
+	distances, indices = knn()
+	neighbours_indices = neighbours_of_index(patient_index, distances, indices)
+	export_anomaly_and_neighbours('Reports/anomalies/', patient_index, neighbours_indices)
 	data = []
-	with open('anomaly_neighbours/'+str(patient_index)+'.csv') as csvfile:
+	with open('Reports/anomalies/'+str(patient_index)+'.csv') as csvfile:
 		spamreader = csv.reader(csvfile, delimiter=',')
 		for row in spamreader:
 			data.append(row)
